@@ -17,3 +17,20 @@ Election Vote is a web-based application designed to facilitate voting processes
 - Password Management: Users can update their passwords and recover forgotten passwords through the application.
 - Profile Management: Users can view and update their profile details.
 - Voting Functionality: Users can vote for candidates in elections. ✅
+
+# API Endpoints
+
+# Authentication
+
+ # Sign up
+   - POST /signup :- Sign up user
+
+ # Login
+   - POST /login  :- Login user
+
+ # put 
+   - PUT /profile/password :- Change user password
+
+ # Vote for Candidate
+   - POST /candidates/vote/:id: Vote for a candidate
+  
