@@ -13,7 +13,7 @@ Election Vote is a web-based application designed to facilitate voting processes
 -Authentication: JWT (JSON Web Token) 🔒
 
 # Features
--User Authentication: Users must sign in using their Aadhar card number and password. JWT authentication ensures secure access to the application.
--Password Management: Users can update their passwords and recover forgotten passwords through the application.
--Profile Management: Users can view and update their profile details.
--Voting Functionality: Users can vote for candidates in elections. ✅
+- User Authentication: Users must sign in using their Aadhar card number and password. JWT authentication ensures secure access to the application.
+- Password Management: Users can update their passwords and recover forgotten passwords through the application.
+- Profile Management: Users can view and update their profile details.
+- Voting Functionality: Users can vote for candidates in elections. ✅
