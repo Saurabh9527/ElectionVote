@@ -34,4 +34,17 @@ Election Vote is a web-based application designed to facilitate voting processes
 
  # Vote for Candidate
    - POST /candidates/vote/:id: Vote for a candidate
+
+# SCREENSHOT
+
+
+![HOME1](https://github.com/Saurabh9527/ElectionVote/assets/136837795/57a454b3-8094-41bd-bf30-5c4361de7ed9)
+
+![HOME2](https://github.com/Saurabh9527/ElectionVote/assets/136837795/2347674e-daa1-407d-83d3-11ea4aaa8c64)
+
+![LOGIN](https://github.com/Saurabh9527/ElectionVote/assets/136837795/9879aad9-ace6-4e46-ad2e-18bab184315d)
+
+![SIGNUP](https://github.com/Saurabh9527/ElectionVote/assets/136837795/5be0e5e1-4977-4ca8-9502-2cbe39090334)
+
+
   
