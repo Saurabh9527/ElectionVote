@@ -14,22 +14,18 @@ const checkAdminRole = async(candiId) =>{
     }
 }
 
-//*POST route add a candidate by only "admin" role person
 router.post("/", jwtAuthMiddleware ,async (req, res) => {
     try {
-      //   console.log(req.body);
       if(! await checkAdminRole(req.user.id)){
         return res.status(403).json({message: "User has not Admin"})
       }
-      //* Assuming the req.body contain data
+
       const data = req.body;
-      //* created new document in Person collection (Sql-> created new row in Person table)
       const newCandidate = new Candidate(data);
-      //* finally save new document (new row save)
       const response = await newCandidate.save();
       console.log("Saved Person in db");
   
-      res.status(200).json({ response: response }); //*send data to client
+      res.status(200).json({ response: response }); 
     } catch (error) {
       console.log("Error saved person", error);
       res.status(500).json({
@@ -38,9 +34,6 @@ router.post("/", jwtAuthMiddleware ,async (req, res) => {
     }
   });
 
-
-//*Update a candidate by only "admin" role person
-//~ here candiate ID is "candidate data want to update" but while updating must have token who is person has admin role 
 router.put("/:candidateID", jwtAuthMiddleware ,  async (req, res) => { 
   try {
 
@@ -48,12 +41,12 @@ router.put("/:candidateID", jwtAuthMiddleware ,  async (req, res) => {
         return res.status(403).json({message: "User has not Admin"})
       }
 
-      const candidateID = req.params.candidateID;  //*extract id from Url parameter
-      const updatedCandidateData = req.body;   //* actual which data want to update which pass through
+      const candidateID = req.params.candidateID; 
+      const updatedCandidateData = req.body;   
 
       const response = await Candidate.findByIdAndUpdate(candidateID , updatedCandidateData , {
-          new: true,  //*return the updated document
-          runValidators:true    //*run moongoose validation
+          new: true,  
+          runValidators:true    
       });
 
       if(!response){
@@ -71,9 +64,6 @@ router.put("/:candidateID", jwtAuthMiddleware ,  async (req, res) => {
   }
 });
 
-
-//* Delete a candidate by only "admin" role person
-//~ here candiate ID is "candidate data want to delete" but while updating must have token who is person has admin role 
 router.delete("/:candidateID", jwtAuthMiddleware , async (req, res) => {
     try {
   
@@ -81,7 +71,7 @@ router.delete("/:candidateID", jwtAuthMiddleware , async (req, res) => {
           return res.status(403).json({message: "User has not Admin role"})
         }
   
-        const candidateID = req.params.candidateID;  //*extract id from Url parameter
+        const candidateID = req.params.candidateID;  
   
         const response = await Candidate.findByIdAndDelete(candidateID)
   
@@ -100,44 +90,34 @@ router.delete("/:candidateID", jwtAuthMiddleware , async (req, res) => {
     }
   });
 
-  //*start voting
 router.post("/vote/:candidateID" , jwtAuthMiddleware ,async (req , res)=>{
-    //* no admin can vote
-    //* user can only vote at once  
-    const candidateID = req.params.candidateID;  //*candidate id from url parameter
-    const userId = req.user.id;      //* user id from token middleware
+    const candidateID = req.params.candidateID; 
+    const userId = req.user.id;     
     try {
 
-        //*check the candidate present in db 
         const candidate = await Candidate.findById(candidateID);
 
         if(!candidate){
             return res.status(404).json({message : "Candidate Not Found"})
         }
 
-        //*check the User present in db
         const user = await User.findById(userId);
         if(!user){
             return res.status(404).json({message : "User Not Found"})
         }
 
-        //*check the candidate already voted or not 
         if(user.isVoted){
             return res.status(400).json({message : "You have already Voted"})
         }
 
-        //*check the candidate has role admin 
         if(user.role === "admin"){
             return res.status(403).json({message : "admin is not allowed"})
         }
 
-        //* update or add user in candidate documents
         candidate.votes.push({user: userId})
-        candidate.voteCount++; //*increased votes of candidate
+        candidate.voteCount++; 
         await candidate.save();
 
-
-        //*update the user document
         user.isVoted=true;
         await user.save();
 
@@ -150,14 +130,11 @@ router.post("/vote/:candidateID" , jwtAuthMiddleware ,async (req , res)=>{
     }
 })
 
-//* vote count
+
 router.get("/vote/count" , async(req , res)=>{
     try {
-        //* find all candidate and sort them by votecount in decreasing order
         const candidate = await Candidate.find().sort({voteCount: 'desc'});
 
-
-        //* map the candidate and only return name and votes
         const record = candidate.map((candData)=>{
             return {
                 party: candData.party,
