@@ -57,7 +57,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/profile", jwtAuthMiddleware, async (req, res) => {
   try {
-    const userData = req.user.id; /
+    const userData = req.user.id; 
     const userId = userData;
     const user = await User.findById(userId);
     console.log(user);
